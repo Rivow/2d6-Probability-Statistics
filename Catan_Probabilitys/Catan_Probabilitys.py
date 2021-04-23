@@ -1,5 +1,4 @@
 
-
 def prove_if_int(integer):
     try:
         int(integer)
@@ -27,6 +26,16 @@ def rolled_dic(roll_list):
         roll_dic[roll] = repeated_number
 
     return roll_dic
+
+
+def create_roll_list(roll, roll_list):
+    roll_list.append(roll)
+    return roll_list
+   
+
+
+def total_roll(int):
+    return int
 
 
 
