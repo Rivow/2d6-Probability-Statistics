@@ -9,6 +9,14 @@ def prove_if_int(integer):
         return False
 
 
+def prove_range(roll):
+    if roll > 1 and roll < 13:
+        return True
+    else:
+        print('The Roll must be between 2 and 12')
+        return False
+
+
 def create_dic():
     rolldic = {}
     for number in range(2, 13):
@@ -33,9 +41,14 @@ def create_roll_list(roll, roll_list):
     return roll_list
    
 
-
 def total_roll(int):
+    int += 1
     return int
 
 
-
+def game_ended(end_question):
+    if end_question == 'Y' or end_question == 'y':
+        return True
+    
+    else:
+        return False
