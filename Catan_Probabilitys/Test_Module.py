@@ -4,6 +4,10 @@ import Catan_Probabilitys
 
 class TestModule(unittest.TestCase):
 
+#################################
+#######All Game Tests ###########
+#################################
+
     def test_prove_int_true(self):
         actual = Catan_Probabilitys.prove_if_int(2)
         self.assertTrue(actual, 'Expected True since test input was an integer')
@@ -56,5 +60,16 @@ class TestModule(unittest.TestCase):
         actual = Catan_Probabilitys.game_ended
         self.assertTrue(actual, 'Expected to return True')
 
+#################################
+#### All Probability Tests ######
+#################################
+
+    def test_create_avarege_probability_dic(self):
+         actual = Catan_Probabilitys.create_average_probability_dic()
+         expected = {2: 0.0278, 3: 0.0556, 4: 0.0833, 5: 0.1111, 6: 0.1389, 7: 0.1667, 8: 0.1389, 9: 0.1111, 10: 0.0833, 11: 0.0556, 12: 0.0278}
+         self.assertDictEqual(actual, expected, 'Expected Dictionaries to be equal ')
+
+
+    
 if __name__ == '__main__':
     unittest.main()

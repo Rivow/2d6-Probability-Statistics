@@ -1,4 +1,6 @@
-
+#################################
+#######All Game Functions########
+#################################
 def prove_if_int(integer):
     try:
         int(integer)
@@ -52,3 +54,11 @@ def game_ended(end_question):
     
     else:
         return False
+
+#################################
+#####Probability Functions#######
+#################################
+
+def create_average_probability_dic():
+    avarage_probability_dic = {2: 0.0278, 3: 0.0556, 4: 0.0833, 5: 0.1111, 6: 0.1389, 7: 0.1667, 8: 0.1389, 9: 0.1111, 10: 0.0833, 11: 0.0556, 12: 0.0278}
+    return avarage_probability_dic
