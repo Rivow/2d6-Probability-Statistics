@@ -69,6 +69,7 @@ def create_average_probability_dic():
 def calculate_game_prob(probability_dic):
     avarage_probability = create_averahe_probability_dic() 
     for number in probability_dic:
+        number +=1
         
 
 
