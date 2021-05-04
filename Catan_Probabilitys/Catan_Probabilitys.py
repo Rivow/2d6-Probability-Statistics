@@ -66,20 +66,23 @@ def create_average_probability_dic():
     return avarage_probability_dic
 
 
-def calculate_game_prob(probability_dic):
-    avarage_probability = create_averahe_probability_dic() 
-    for number in probability_dic:
-        number +=1
-        
-
+def calculate_game_prob(roll_dic, total_rolls):
+    game_prob_dic = {}
+    avarage_probability = create_average_probability_dic() 
+    for number in avarage_probability:
+        binomial_roll = binomial(total_rolls, roll_dic[number])
+        prob = binomial_roll * (avarage_probability[number]) ** roll_dic[number] * (1-avarage_probability[number]) ** (total_rolls - roll_dic[number])
+        rounded = round(prob, 4)
+        game_prob_dic[number] = rounded 
+    return game_prob_dic 
 
 
 #################################
 ######## Math Functions #########
 #################################
 
-def binomial(total, expected):
-    binomial_var = math.factorial(total)/(math.factorial(expected) * math.factorial(total - expected))
+def binomial(total, no_rolls):
+    binomial_var = math.factorial(total)/(math.factorial(no_rolls) * math.factorial(total - no_rolls))
     return binomial_var
 
 

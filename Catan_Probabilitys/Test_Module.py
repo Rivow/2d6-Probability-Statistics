@@ -69,9 +69,11 @@ class TestModule(unittest.TestCase):
          expected = {2: 0.0278, 3: 0.0556, 4: 0.0833, 5: 0.1111, 6: 0.1389, 7: 0.1667, 8: 0.1389, 9: 0.1111, 10: 0.0833, 11: 0.0556, 12: 0.0278}
          self.assertDictEqual(actual, expected, 'Expected Dictionaries to be equal ')
 
-    #def test_calculate_game_prob(self):
-     #   actual = Catan_Probabilitys.calculate_game_prob({2: 0, 3: 1, 4: 1, 5: 1, 6: 0, 7: 4, 8: 2, 9: 2, 10: 2, 11: 1, 12: 1}, 15)
-      #  expected = {2: 0.6551, 3: 0.0250, 4: 0.0247, 5: 0.0171, 6: 0.1061, 7: 0.0001, 8: 0.0028, 9: 0.0027, 10: 0.0022, 11: 0.0250, 12: 0.0187}
+    def test_calculate_game_prob(self):
+        actual = Catan_Probabilitys.calculate_game_prob({2: 0, 3: 1, 4: 1, 5: 1, 6: 0, 7: 4, 8: 2, 9: 2, 10: 2, 11: 1, 12: 1}, 15)
+        expected = {2: 0.6551, 3: 0.0250, 4: 0.0247, 5: 0.0171, 6: 0.1061, 7: 0.0001, 8: 0.0028, 9: 0.0027, 10: 0.0022, 11: 0.0250, 12: 0.0187}
+        self.assertDictEqual(actual, expected, 'Expected both Dics to be Equal')
+
 
 #################################
 #### All Math Tests ############
