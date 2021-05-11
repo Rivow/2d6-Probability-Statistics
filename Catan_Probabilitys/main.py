@@ -11,21 +11,27 @@ if __name__ == '__main__':
     while game_end == False:
         roll = input('Dice Roll: ')
         number = Catan_Probabilitys.prove_if_int(roll)
-        range = Catan_Probabilitys.prove_range(roll)
+        if number is True:
+            range = Catan_Probabilitys.prove_range(int(roll))
         
-        if number is True and range is True:
-            new_list = Catan_Probabilitys.create_roll_list(roll, roll_list)
-            Catan_Probabilitys.total_roll(total_rolls)
+        if range is True:
+            # Fix int error when extra space is givien
+            game_rolled_list = Catan_Probabilitys.create_roll_list(int(roll), roll_list)
+            total_rolls = Catan_Probabilitys.total_roll(total_rolls)
             end_question = input('Has the game ended? (Y/y) ')
             game_end = Catan_Probabilitys.game_ended(end_question)
+            
 
 
     #The Probabiltys will be compared and plotted in for comparison
-    create_average_probability_dic()
+    probs = Catan_Probabilitys.create_average_probability_dic()
 
 
 
-    roll_list = Catan_Probabilitys.rolled_dic(roll_list)
+    roll_list = Catan_Probabilitys.rolled_dic(game_rolled_list)
+    amount_rolls = Catan_Probabilitys.expected_amount_rolls(probs, total_rolls)
+    for rolls in roll_list:
+        print(f'{rolls} Expected: {amount_rolls[rolls]}   Actual In Game: {roll_list[rolls]}  ')
     print(roll_list)
 
     main(module='Test_Module', exit=False)

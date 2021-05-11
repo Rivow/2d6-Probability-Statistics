@@ -77,6 +77,15 @@ def calculate_game_prob(roll_dic, total_rolls):
     return game_prob_dic 
 
 
+def expected_amount_rolls(average_prob_dic, total_rolls):
+    roll_amount_dic = {}
+    for roll_prob in average_prob_dic:
+        amount = average_prob_dic[roll_prob] * total_rolls
+        rounded = round(amount, 2)
+        roll_amount_dic[roll_prob] = rounded
+    return roll_amount_dic
+
+
 #################################
 ######## Math Functions #########
 #################################
