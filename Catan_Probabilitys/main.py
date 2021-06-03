@@ -1,11 +1,21 @@
 from unittest import main
 import Catan_Probabilitys
+from kivy.app import App
+from kivy.uix.widget import Widget
+
+class MainWidget(Widget):
+    pass
+
+class CatanApp(App):
+    pass
+
 
 if __name__ == '__main__':
+    CatanApp().run()
     game_end = False
     roll_list = []
     total_rolls = 0
-
+    
     #Game Loop while game is still being played ends once Y or y given to comandline
 
     while game_end == False:
@@ -29,11 +39,12 @@ if __name__ == '__main__':
 
     roll_list = Catan_Probabilitys.rolled_dic(game_rolled_list)
     amount_rolls = Catan_Probabilitys.expected_amount_rolls(probs, total_rolls)
+    actual_game_prob = Catan_Probabilitys.calculate_game_prob(roll_list, total_rolls)
     for rolls in roll_list:
         if rolls < 10:
-            print(f'{rolls}  Expected: {amount_rolls[rolls]}   Actual In Game: {roll_list[rolls]}  ')
+            print(f'{rolls}  Expected: {amount_rolls[rolls]}   Actual In Game: {roll_list[rolls]}  Probability: {actual_game_prob[rolls] * 100}%')
         else:
-            print(f'{rolls} Expected: {amount_rolls[rolls]}   Actual In Game: {roll_list[rolls]}  ')
+            print(f'{rolls} Expected: {amount_rolls[rolls]}   Actual In Game: {roll_list[rolls]}  Probability: {actual_game_prob[rolls] * 100}%')
     print(f'Total Rolls: {total_rolls}')
 
-    main(module='Test_Module', exit=False)
+#    main(module='Test_Module', exit=False)

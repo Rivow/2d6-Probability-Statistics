@@ -79,7 +79,7 @@ class TestModule(unittest.TestCase):
         expected =  {2: 3.75, 3: 7.51 , 4: 11.25, 5: 15.0, 6: 18.75, 7: 22.5, 8: 18.75, 9: 15.0, 10: 11.25, 11: 7.51, 12: 3.75}
         self.assertDictEqual(actual, expected, 'Expected Dictionaries to be equal ')
 
-    def test_at_least_prob(self)
+    def test_at_least_prob(self):
         pass
 
 #################################

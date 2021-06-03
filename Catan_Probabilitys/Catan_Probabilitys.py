@@ -73,7 +73,7 @@ def calculate_game_prob(roll_dic, total_rolls):
         binomial_roll = binomial(total_rolls, roll_dic[number])
         prob = binomial_roll * (avarage_probability[number]) ** roll_dic[number] * (1-avarage_probability[number]) ** (total_rolls - roll_dic[number])
         rounded = round(prob, 4)
-        game_prob_dic[number] = rounded 
+        game_prob_dic[number] = rounded
     return game_prob_dic 
 
 
