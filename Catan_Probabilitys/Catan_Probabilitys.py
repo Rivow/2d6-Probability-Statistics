@@ -1,5 +1,8 @@
 import math
 
+
+
+
 #################################
 #######All Game Functions########
 #################################
@@ -40,7 +43,7 @@ def rolled_dic(roll_list):
     return roll_dic
 
 
-def create_roll_list(roll, roll_list):
+def add_to_roll_list(roll, roll_list):
     roll_list.append(roll)
     return roll_list
    

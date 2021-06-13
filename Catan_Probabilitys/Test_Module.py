@@ -46,7 +46,7 @@ class TestModule(unittest.TestCase):
     def test_create_roll_list(self):
         roll_list = []
         for test_var in range(2,10):
-            actual = Catan_Probabilitys.create_roll_list(test_var, roll_list)
+            actual = Catan_Probabilitys.add_to_roll_list(test_var, roll_list)
         expected = [2, 3, 4, 5, 6, 7, 8, 9]
         self.assertEqual(actual, expected, 'Roll List Expected to have the values form 2 to 9')
 
