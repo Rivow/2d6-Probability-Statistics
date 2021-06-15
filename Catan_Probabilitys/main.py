@@ -2,23 +2,24 @@ from unittest import main
 import Catan_Probabilitys
 from kivy.app import App
 from kivy.uix.widget import Widget
+from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.stacklayout import StackLayout
+from kivy.uix.scrollview import ScrollView
 from kivy.properties import ListProperty
 
 
+roll_list = [4,7,5]
 class MainPage(BoxLayout):
+
     end = True
     
     def end_game(self):
-        self.end = True
-
-
+        print(self.roll_list)
 
 
 class StackNumber(StackLayout):
-    roll_list = ListProperty([])
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -27,11 +28,31 @@ class StackNumber(StackLayout):
             btn.bind(on_press = self.on_number_button_click)
             self.add_widget(btn)
         btn = Button(text = u"\u2190", size_hint = (.25, .33))
+        btn.bind(on_press = self.on_delete_click)
         self.add_widget(btn)
 
     def on_number_button_click(self, number):
-        self.roll_list.append(number.text)
-        print(self.roll_list)
+        roll_list.append(number.text)
+        print(roll_list)
+
+    def on_delete_click(self, deletebtn):
+        try:
+            roll_list.pop()
+            print(roll_list)
+        except:
+           pass
+   
+
+class LabelStack(StackLayout):
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        for numbers in roll_list:
+            lb = Label(text = str(numbers), size_hint = (.25, .25))
+            self.add_widget(lb)
+
+
+
 
 
 class CatanApp(App):
@@ -39,12 +60,13 @@ class CatanApp(App):
 
 
 if __name__ == '__main__':
+    
     CatanApp().run()
-    game_end = False
     roll_list = []
+    game_end = False
     total_rolls = 0
     
-    #Game Loop while game is still being played ends once Y or y given to comandline
+    #delete later
 
     while game_end == False:
      

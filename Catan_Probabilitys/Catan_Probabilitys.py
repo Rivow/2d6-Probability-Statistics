@@ -4,7 +4,7 @@ import math
 
 
 #################################
-#######All Game Functions########
+#######All Game Functions  deleteee########
 #################################
 def prove_if_int(integer):
     try:
