@@ -1,28 +1,129 @@
 from unittest import main
 import Catan_Probabilitys
+
+
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.stacklayout import StackLayout
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.image import Image
+
 from kivy.properties import ListProperty
+from kivy.properties import StringProperty
+from kivy.lang import Builder
 
 
-roll_list = [4,7,5]
-class MainPage(BoxLayout):
 
-    end = True
-    
+Builder.load_string("""
+<MainPage>:
+	orientation: 'vertical'
+
+
+	BoxLayout:
+		size_hint: 1, .15
+		Button:
+			size_hint: .20, 1
+			text: 'N.G.'
+
+		Label:
+			text: 'yeet'
+
+		Button:
+			size_hint: .20, 1
+			text: 'info'
+
+	ScrollView:
+		Label:
+
+			font_size: 45
+
+			size: self.texture_size
+			text: app.list_str
+
+    StackNumber:
+            
+
+
+<MainScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        MainPage:
+
+        BottomLayout:
+            size_hint: 1, .15
+            Button:
+                text: 'End Game?'
+                on_press:
+                    root.end_game()
+                    root.manager.transition.direction = 'left'
+                    root.manager.transition.duration = 0.5
+                    root.manager.current = 'end_screen'
+
+<EndScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+		    Label:
+			    size_hint: None, None
+			    font_size: 14
+			    size: self.texture_size
+                text: app.list_str
+
+			    
+        Button:
+            size_hint: 1, .15
+            text: 'New Game'
+            on_press:
+                root.new_game()
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = 0.5
+                root.manager.current = 'main_screen'
+
+
+""")
+
+class MainScreen(Screen):
+    pass
+
     def end_game(self):
-        print(self.roll_list)
+        app = App.get_running_app()
+        probs = Catan_Probabilitys.create_average_probability_dic()
+        rolled_list = Catan_Probabilitys.rolled_dic(app.roll_list)
+        amount_rolls = Catan_Probabilitys.expected_amount_rolls(probs, len(app.roll_list))
+        actual_game_prob = Catan_Probabilitys.calculate_game_prob(rolled_list, len(app.roll_list))
+        app.list_str = ''
+        for rolls in rolled_list:
+            if int(rolls) < 10:
+                    app.list_str += f'{rolls}  Expected: {amount_rolls[int(rolls)]}   Actual In Game: {rolled_list[int(rolls)]}\n{rolls}  Probability: {actual_game_prob[int(rolls)] * 100}%\n'
+            else:
+                    app.list_str += f'{rolls} Expected: {amount_rolls[int(rolls)]}  Actual In Game: {rolled_list[int(rolls)]}\n{rolls}  Probability: {actual_game_prob[int(rolls)] * 100}%\n'
+        app.list_str += f'Total Rolls: {len(app.roll_list)}'
+            
+            
+
+class EndScreen(Screen):
+    pass
+
+    def new_game(self):
+                app = App.get_running_app()
+                app.roll_list = []
+                app.list_str = ''
+
+
+
+class MainPage(BoxLayout):
+    pass
 
 
 class StackNumber(StackLayout):
-
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super(StackNumber, self).__init__(**kwargs)
+        self.size_hint = (1, .55)
         for number in range (2, 13):
             btn = Button(text = str(number), size_hint=(.25, .33))
             btn.bind(on_press = self.on_number_button_click)
@@ -31,75 +132,46 @@ class StackNumber(StackLayout):
         btn.bind(on_press = self.on_delete_click)
         self.add_widget(btn)
 
-    def on_number_button_click(self, number):
-        roll_list.append(number.text)
-        print(roll_list)
 
-    def on_delete_click(self, deletebtn):
+    def on_number_button_click(self, instance):
+        app = App.get_running_app()
+        app.roll_list.append(int(instance.text))
+        app.list_str = ''
+        for n in range(-5, 0):
+            try:
+                app.list_str += str(app.roll_list[n]) + '\n'
+
+            except:
+                pass
+
+    def on_delete_click(self, instance):
         try:
-            roll_list.pop()
-            print(roll_list)
+            app = App.get_running_app()
+            app.list_str = app.list_str.removesuffix(str(app.roll_list[-1]) + '\n')
+            app.roll_list.pop()
         except:
            pass
+
+
+class BottomLayout(AnchorLayout):
+    pass
+    
+
+
+
    
 
-class LabelStack(StackLayout):
-    
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        for numbers in roll_list:
-            lb = Label(text = str(numbers), size_hint = (.25, .25))
-            self.add_widget(lb)
-
-
-
-
-
 class CatanApp(App):
-    pass
+    roll_list = ListProperty([])
+    list_str = StringProperty('')
+    def build(self):
+        sm = ScreenManager()
+        sm.add_widget(MainScreen(name = 'main_screen'))
+        sm.add_widget(EndScreen(name = 'end_screen'))
+        return sm
 
 
 if __name__ == '__main__':
     
     CatanApp().run()
-    roll_list = []
-    game_end = False
-    total_rolls = 0
-    
-    #delete later
-
-    while game_end == False:
-     
-        roll = input('Dice Roll: ')
-        number = Catan_Probabilitys.prove_if_int(roll)
-        if number is True:
-            range = Catan_Probabilitys.prove_range(int(roll))
-
-        
-        
-        if range is True and number is True:
-            game_rolled_list = Catan_Probabilitys.add_to_roll_list(int(roll), roll_list)
-            total_rolls = Catan_Probabilitys.total_roll(total_rolls)
-            end_question = input('Has the game ended? (Y/y) ')
-
-        #game_end = Catan_Probabilitys.game_ended(end_question)
-         
-            game_end = MainPage.end
-
-
-    #The Probabiltys will be compared and plotted in for comparison
-    probs = Catan_Probabilitys.create_average_probability_dic()
-
-
-
-    roll_list = Catan_Probabilitys.rolled_dic(game_rolled_list)
-    amount_rolls = Catan_Probabilitys.expected_amount_rolls(probs, total_rolls)
-    actual_game_prob = Catan_Probabilitys.calculate_game_prob(roll_list, total_rolls)
-    for rolls in roll_list:
-        if rolls < 10:
-            print(f'{rolls}  Expected: {amount_rolls[rolls]}   Actual In Game: {roll_list[rolls]}  Probability: {actual_game_prob[rolls] * 100}%')
-        else:
-            print(f'{rolls} Expected: {amount_rolls[rolls]}   Actual In Game: {roll_list[rolls]}  Probability: {actual_game_prob[rolls] * 100}%')
-    print(f'Total Rolls: {total_rolls}')
-
     main(module='Test_Module', exit=False)
