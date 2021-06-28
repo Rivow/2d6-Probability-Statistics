@@ -1,8 +1,5 @@
 import math
 
-
-
-
 #################################
 #######All Game Functions ########
 #################################
@@ -62,5 +59,3 @@ def expected_amount_rolls(average_prob_dic, total_rolls):
 def binomial(total, no_rolls):
     binomial_var = math.factorial(total)/(math.factorial(no_rolls) * math.factorial(total - no_rolls))
     return binomial_var
-
-
