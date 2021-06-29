@@ -15,6 +15,7 @@
 		Button:
 			size_hint: .20, 1
 			text: 'info'
+            on_press: Factory.InfoPopup().open()
 
 	ScrollView:
 		Label:
@@ -103,6 +104,22 @@
             Button:
                 text: 'No'
                 on_press: root.dismiss()
+
+<InfoPopup>:
+    title: ''
+    separator_height: 0
+    size_hint: 1 , .75
+    auto_dismiss: False
+
+    BoxLayout:
+        Label:
+            size_hint: 1, .8
+            text_size: self.size
+            markup: True
+            text: 'Hello this is my first app. It calculates the probabilitys of your rolls. It is an open source Project if you want to contribute you can visit the [ref=https://github.com/Rivow/2d6-Probability-Statistics] [color=0000ff]Github Repository[/color][/ref] to find the code. If you find any bugs feel free to tell me'
+            on_ref_press:
+                import webbrowser
+                webbrowser.open(args[1])
 
 
 

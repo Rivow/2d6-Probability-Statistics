@@ -1,5 +1,5 @@
 from unittest import main
-import Catan_Probabilitys
+import DiceProbabilityStatistics
 
 
 from kivy.app import App
@@ -20,7 +20,8 @@ from kivy.lang import Builder
 
 
 
-Builder.unload_file('Catanapp.kv')
+Builder.load_file('DiceProbabilityStatistics.kv')
+
 class MainScreen(Screen):
     pass
             
@@ -79,10 +80,10 @@ class EndPopup(Popup):
 
     def end_game(self):
         app = App.get_running_app()
-        probs = Catan_Probabilitys.create_average_probability_dic()
-        rolled_list = Catan_Probabilitys.rolled_dic(app.roll_list)
-        amount_rolls = Catan_Probabilitys.expected_amount_rolls(probs, len(app.roll_list))
-        actual_game_prob = Catan_Probabilitys.calculate_game_prob(rolled_list, len(app.roll_list))
+        probs = DiceProbabilityStatistics.create_average_probability_dic()
+        rolled_list = DiceProbabilityStatistics.rolled_dic(app.roll_list)
+        amount_rolls = DiceProbabilityStatistics.expected_amount_rolls(probs, len(app.roll_list))
+        actual_game_prob = DiceProbabilityStatistics.calculate_game_prob(rolled_list, len(app.roll_list))
         app.end_statistics = ''
         for rolls in rolled_list:
             if int(rolls) < 10:
@@ -101,6 +102,9 @@ class NewGamePopup(Popup):
         app.list_str = ''
 
 
+class InfoPopup(Popup):
+    pass
+
 class CatanApp(App):
     roll_list = ListProperty([])
     list_str = StringProperty('')
@@ -111,6 +115,8 @@ class CatanApp(App):
         self.sm.add_widget(MainScreen(name = 'main_screen'))
         self.sm.add_widget(EndScreen(name = 'end_screen'))
         return self.sm
+
+
 
 
 
