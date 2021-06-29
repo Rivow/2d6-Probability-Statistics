@@ -1,0 +1,112 @@
+#:import Factory kivy.factory.Factory
+<MainPage>:
+	orientation: 'vertical'
+
+
+	BoxLayout:
+		size_hint: 1, .15
+		Label:
+			size_hint: .20, 1
+			text: ''
+
+		Label:
+			text: '2D6 Statstistics'
+
+		Button:
+			size_hint: .20, 1
+			text: 'info'
+
+	ScrollView:
+		Label:
+			font_size: 90
+
+			size: self.texture_size
+			text: app.list_str
+
+    StackNumber:
+            
+
+
+<MainScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        MainPage:
+
+        BottomLayout:
+            size_hint: 1, .15
+            Button:
+                text: 'End Game?'
+                on_press: Factory.EndPopup().open()
+
+<EndScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+		    Label:
+			    size_hint: None, None
+			    font_size: 60
+			    size: self.texture_size
+                text: app.end_statistics
+
+			    
+        Button:
+            size_hint: 1, .15
+            text: 'New Game'
+            on_press: Factory.NewGamePopup().open()
+
+<EndPopup>:
+    title: ''
+    separator_height: 0
+    size_hint: 1 , .75
+    auto_dismiss: False
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            size_hint: 1, .8
+            text: 'Are you sure you want to end the Game?'
+
+        BoxLayout:
+            size_hint: 1, .2
+            Button:
+                text: 'Yes'
+                on_press:
+                    root.end_game()
+                    app.sm.transition.direction = 'left'
+                    app.sm.transition.duration = 0.3
+                    app.sm.current = 'end_screen'
+                    root.dismiss()
+            Button:
+                text: 'No'
+                on_press: root.dismiss()
+
+<NewGamePopup>:
+    title: ''
+    separator_height: 0
+    size_hint: 1 , .75
+    auto_dismiss: False
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            size_hint: 1, .8
+            text: 'Are you sure you want to start a new Game?'
+
+        BoxLayout:
+            size_hint: 1, .2
+            Button:
+                text: 'Yes'
+                on_press:
+                    root.new_game()
+                    app.sm.transition.direction = 'left'
+                    app.sm.transition.duration = 0.3
+                    app.sm.current = 'main_screen'
+                    root.dismiss()
+            Button:
+                text: 'No'
+                on_press: root.dismiss()
+
+
+
+
+
+
+

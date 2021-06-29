@@ -20,113 +20,7 @@ from kivy.lang import Builder
 
 
 
-Builder.load_string("""
-#:import Factory kivy.factory.Factory
-<MainPage>:
-	orientation: 'vertical'
-
-
-	BoxLayout:
-		size_hint: 1, .15
-		Button:
-			size_hint: .20, 1
-			text: 'N.G.'
-
-		Label:
-			text: 'yeet'
-
-		Button:
-			size_hint: .20, 1
-			text: 'info'
-
-	ScrollView:
-		Label:
-			font_size: 90
-
-			size: self.texture_size
-			text: app.list_str
-
-    StackNumber:
-            
-
-
-<MainScreen>
-    BoxLayout:
-        orientation: 'vertical'
-        MainPage:
-
-        BottomLayout:
-            size_hint: 1, .15
-            Button:
-                text: 'End Game?'
-                on_press: Factory.EndPopup().open()
-
-<EndScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-        ScrollView:
-		    Label:
-			    size_hint: None, None
-			    font_size: 60
-			    size: self.texture_size
-                text: app.end_statistics
-
-			    
-        Button:
-            size_hint: 1, .15
-            text: 'New Game'
-            on_press: Factory.NewGamePopup().open()
-
-<EndPopup>:
-    size_hint: .75 , .75
-    auto_dismiss: False
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            size_hint: 1, .8
-            text: 'Are you sure you want to end the Game?'
-
-        BoxLayout:
-            size_hint: 1, .2
-            Button:
-                text: 'Yes'
-                on_press:
-                    root.end_game()
-                    app.sm.transition.direction = 'left'
-                    app.sm.transition.duration = 0.3
-                    app.sm.current = 'end_screen'
-                    root.dismiss()
-            Button:
-                text: 'No'
-                on_press: root.dismiss()
-
-<NewGamePopup>:
-    size_hint: .75 , .75
-    auto_dismiss: False
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            size_hint: 1, .8
-            text: 'Are you sure you want to start a new Game?'
-
-        BoxLayout:
-            size_hint: 1, .2
-            Button:
-                text: 'Yes'
-                on_press:
-                    root.new_game()
-                    app.sm.transition.direction = 'left'
-                    app.sm.transition.duration = 0.3
-                    app.sm.current = 'main_screen'
-                    root.dismiss()
-            Button:
-                text: 'No'
-                on_press: root.dismiss()
-
-
-
-""")
-
+Builder.unload_file('Catanapp.kv')
 class MainScreen(Screen):
     pass
             
@@ -165,7 +59,8 @@ class StackNumber(StackLayout):
     def on_delete_click(self, instance):
         try:
             app = App.get_running_app()
-            app.list_str = app.list_str.removesuffix(str(app.roll_list[-1]) + '\n')
+            corrected_str = replace_last(app.list_str, (str(app.roll_list[-1]) + '\n'), '')
+            app.list_str = corrected_str
             app.roll_list.pop()
         except:
            pass
@@ -174,7 +69,11 @@ class StackNumber(StackLayout):
 class BottomLayout(AnchorLayout):
     pass
 
-    
+
+def replace_last(source_string, replace_what, replace_with):
+    head, _sep, tail = source_string.rpartition(replace_what)
+    return head + replace_with + tail
+   
 class EndPopup(Popup):
     pass
 
